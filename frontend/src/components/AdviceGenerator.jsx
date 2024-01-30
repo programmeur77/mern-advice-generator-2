@@ -12,12 +12,11 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
 
   useEffect(() => {
     userId === null ? navigate('/login') : null;
-    if (!localStorage.getItem('advice')) {
-      if (!generateAdvice()) {
-        console.log('Failed to generate advice');
-      }
-    } else {
-      setCurrentAdvice([JSON.parse(localStorage.getItem('advice'))]);
+    // currentAdvice === null && userId !== null ? generateAdvice() : null;
+    if (currentAdvice === null && userId !== null) {
+      generateAdvice();
+    } else if (currentAdvice !== null && userId !== null) {
+      console.log('NOK');
     }
   }, []);
 
@@ -36,16 +35,39 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
     }
   };
 
+  const saveAdviceFetch = async (advice) => {
+    try {
+      const saveAdviceResponse = await fetch(
+        `http://localhost:3000/api/advice/${userId}/adviceUpdate`,
+        {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify(advice),
+        }
+      );
+
+      if (!saveAdviceResponse.ok) {
+        throw new Error('Failed to fetch advice');
+      }
+
+      const saveAdviceData = await saveAdviceResponse.json();
+      return saveAdviceData;
+    } catch (error) {
+      console.error(error);
+    }
+  };
+
   const generateAdvice = async () => {
     setIsLoading(true);
-
     try {
-      const generatedAdvice = await generateAdviceFetch();
-      if (!generateAdvice) {
-        throw new error('Error generating advice');
+      const advice = await generateAdviceFetch();
+      if (!advice) {
+        throw new Error('Impossible to generate advice');
       }
-      setCurrentAdvice([generatedAdvice]);
-      localStorage.setItem('advice', JSON.stringify(generatedAdvice));
+      setCurrentAdvice([advice]);
+      saveCurrentAdvice(advice);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -53,21 +75,36 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
     }
   };
 
-  const handleOnClick = (event) => {
-    event.preventDefault();
-    generateAdvice();
+  const saveCurrentAdvice = async (advice) => {
+    const FormattedAdvice = {
+      adviceId: advice.id,
+      advice: advice.advice,
+      generatedAt: new Date().toLocaleString(),
+    };
+    try {
+      setIsLoading(true);
+      const savedAdvice = await saveAdviceFetch(FormattedAdvice);
+      if (!savedAdvice) {
+        throw new Error('Impossible to save advice');
+      }
+      setIsLoading(false);
+      return console.log(savedAdvice);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(false);
+    }
   };
 
   return (
     <div className="generator">
       {currentAdvice !== null
-        ? currentAdvice.map((advice, index) => {
+        ? currentAdvice.map((advice) => {
             return (
               <Advice
-                key={index}
+                key={advice.id}
                 advice={advice}
                 isLoading={isLoading}
-                handleOnClick={handleOnClick}
+                // handleOnClick={handleOnClick}
               />
             );
           })
