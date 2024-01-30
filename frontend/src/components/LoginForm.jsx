@@ -68,7 +68,10 @@ const LoginForm = ({
           )}
         </div>
 
-        <button className="login-form__submit-btn">
+        <button
+          className="login-form__submit-btn"
+          disabled={isLoading === true}
+        >
           {isLoading ? (
             <img src={loader} alt="loader" />
           ) : (
