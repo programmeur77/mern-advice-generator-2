@@ -2,7 +2,7 @@ import React from 'react';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 
-import { IoEye } from 'react-icons/io5';
+import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { RiLoginCircleLine } from 'react-icons/ri';
 
 import loader from './../assets/loader.svg';
@@ -14,8 +14,11 @@ const LoginForm = ({
   handleOnBlur,
   handleSubmit,
 }) => {
-
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+
+  const handleClickOnEye = () => {
+    setPasswordIsVisible(!passwordIsVisible);
+  };
 
   return (
     <>
@@ -32,15 +35,37 @@ const LoginForm = ({
         />
 
         <div className="login-form__password-container">
-          <input
-            type="password"
-            name="password"
-            className="login-form__input-password"
-            placeholder="password"
-            onChange={handleOnChange}
-            onBlur={handleOnBlur}
-          />
-          <IoEye className="login-form__eye-icon" />
+          {passwordIsVisible ? (
+            <>
+              <input
+                type="text"
+                name="password"
+                className="login-form__input-password"
+                placeholder="password"
+                onChange={handleOnChange}
+                onBlur={handleOnBlur}
+              />
+              <IoEyeOff
+                className="login-form__eye-icon"
+                onClick={handleClickOnEye}
+              />
+            </>
+          ) : (
+            <>
+              <input
+                type="password"
+                name="password"
+                className="login-form__input-password"
+                placeholder="password"
+                onChange={handleOnChange}
+                onBlur={handleOnBlur}
+              />
+              <IoEye
+                className="login-form__eye-icon"
+                onClick={handleClickOnEye}
+              />
+            </>
+          )}
         </div>
 
         <button className="login-form__submit-btn">
