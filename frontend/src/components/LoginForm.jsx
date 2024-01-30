@@ -1,6 +1,6 @@
 import React from 'react';
 import { useState } from 'react';
-import { Link } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 
 import { IoEye, IoEyeOff } from 'react-icons/io5';
 import { RiLoginCircleLine } from 'react-icons/ri';
@@ -18,6 +18,8 @@ const LoginForm = ({
   const [passwordValue, setPasswordValue] = useState('');
   const [error, setError] = useState([]);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+
+  const navigate = useNavigate();
 
   const loginFetch = async (user) => {
     try {
@@ -81,6 +83,10 @@ const LoginForm = ({
     const updatedErrorMessageArray = error.filter(
       (item) => item !== errorMessage
     );
+
+    if (updatedErrorMessageArray.length === 0) {
+      setError([]);
+    }
     console.log(updatedErrorMessageArray);
   };
 
@@ -127,7 +133,7 @@ const LoginForm = ({
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (error) return;
+    if (error.length > 0) return;
 
     postUser(emailValue, passwordValue);
   };
@@ -186,7 +192,7 @@ const LoginForm = ({
 
         <button
           className="login-form__submit-btn"
-          disabled={isLoading === true}
+          disabled={isLoading === true || error.length > 0}
         >
           {isLoading ? (
             <img src={loader} alt="loader" />
@@ -195,7 +201,7 @@ const LoginForm = ({
           )}
         </button>
 
-        {error.length > 0 ? <p>{error}</p> : null}
+        {error ?? <p>{error}</p>}
 
         <div className="form-links">
           <Link to="forgotten-password" className="form-links__link-item">
