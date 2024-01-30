@@ -10,7 +10,7 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
 
   const navigate = useNavigate();
 
-  const DATE_OF_TODAY = new Date().toLocaleString();
+  const DATE_OF_TODAY = new Date().toLocaleDateString();
 
   useEffect(() => {
     userId === null ? navigate('/login') : null;
@@ -80,7 +80,7 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
     const FormattedAdvice = {
       adviceId: advice.id,
       advice: advice.advice,
-      generatedAt: new Date().toLocaleString(),
+      generatedAt: new Date().toLocaleDateString(),
     };
     try {
       setIsLoading(true);
@@ -89,7 +89,7 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
         throw new Error('Impossible to save advice');
       }
       setIsLoading(false);
-      return console.log(savedAdvice);
+      return console.log(savedAdvice.advice);
     } catch (error) {
       console.error(error);
       setIsLoading(false);
@@ -99,10 +99,13 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
   const compareDates = (advice) => {
     advice.map((adviceItem) => {
       if (adviceItem.generatedAt !== DATE_OF_TODAY) {
-        console.log('Dates are different');
         generateAdvice();
       }
     });
+  };
+
+  const handleOnClick = () => {
+    generateAdvice();
   };
 
   return (
@@ -114,7 +117,7 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
                 key={advice.id}
                 advice={advice}
                 isLoading={isLoading}
-                // handleOnClick={handleOnClick}
+                handleOnClick={handleOnClick}
               />
             );
           })
