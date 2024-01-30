@@ -50,6 +50,7 @@
           &:disabled {
             cursor: not-allowed;
             pointer-events: all !important;
+            background-color: lighten($neon-green, 30%);
           }
 
           & > .advice__generate-advice-icon {
