@@ -10,7 +10,8 @@ export const updateAdvice = async (req, res) => {
       $set: {
         advice: { id: adviceId, advice: advice, generatedAt: generatedAt },
       },
-    }
+    },
+    { new: true }
   );
 
   if (!updatedAdvice) {
