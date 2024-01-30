@@ -47,6 +47,11 @@
           background-color: lighten($neon-green, 10%);
           box-shadow: 0 0 20px lighten($neon-green, 10%);
 
+          &:disabled {
+            cursor: not-allowed;
+            pointer-events: all !important;
+          }
+
           & > .advice__generate-advice-icon {
             animation: rotateDice 0.3s linear;
           }
