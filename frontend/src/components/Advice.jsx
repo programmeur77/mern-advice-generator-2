@@ -24,7 +24,11 @@ const Advice = ({ advice, isLoading, handleOnClick }) => {
           <img src={dividerDesktop} alt="Desktop divider image" />
         </picture>
 
-        <button className="advice__generate-advice-btn" onClick={handleOnClick}>
+        <button
+          className="advice__generate-advice-btn"
+          disabled={isLoading === true}
+          onClick={handleOnClick}
+        >
           {isLoading ? (
             <img src={loader} alt="Loader image"></img>
           ) : (
