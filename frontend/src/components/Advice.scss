@@ -1,0 +1,60 @@
+@import './../style/utils/variables';
+@import './../style/utils/keyframes';
+
+.advice-container {
+  width: 50%;
+  padding: 30px;
+  background-color: $dark-grayish-blue;
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.5rem;
+  justify-items: center;
+  border-radius: 15px;
+  position: relative;
+
+  .advice {
+    &__advice {
+      &-number {
+        color: $neon-green;
+        text-transform: uppercase;
+        letter-spacing: 0.3rem;
+        font-size: 0.7rem;
+      }
+
+      &-content {
+        width: 80%;
+        text-wrap: balance;
+        text-align: center;
+        font-size: 1.5rem;
+      }
+    }
+
+    &__separator {
+      margin-bottom: 10px;
+    }
+
+    &__generate-advice {
+      &-btn {
+        border: none;
+        background-color: $neon-green;
+        padding: 15px;
+        border-radius: 50%;
+        position: absolute;
+        bottom: -30px;
+
+        &:hover {
+          cursor: pointer;
+          background-color: lighten($neon-green, 10%);
+          box-shadow: 0 0 20px lighten($neon-green, 10%);
+
+          & > .advice__generate-advice-icon {
+            animation: rotateDice 0.3s linear;
+          }
+        }
+      }
+      &-icon {
+        font-size: 1.5rem;
+      }
+    }
+  }
+}

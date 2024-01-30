@@ -1,0 +1,94 @@
+@import './../style/utils/variables';
+
+.login-form {
+  width: 30%;
+  height: fit-content;
+  padding: 30px;
+  background-color: $dark-grayish-blue;
+  border-radius: 15px;
+  display: grid;
+  grid-template-columns: 1fr;
+  place-items: center;
+  gap: 1.5rem;
+  position: relative;
+
+  @media screen and (min-width: 360px) and (max-width: 700px) {
+    width: 90%;
+  }
+
+  &__title {
+    padding: 10px;
+    justify-self: start;
+    color: $neon-green;
+    text-transform: uppercase;
+    letter-spacing: 0.3rem;
+  }
+
+  &__input-text,
+  &__input-password {
+    width: 100%;
+    padding: 10px;
+    border: none;
+    background-color: transparent;
+    outline: none;
+    border-bottom: 3px solid $neon-green;
+    font-size: 1rem;
+    caret-color: $light-cyan;
+    color: $light-cyan;
+
+    &::placeholder {
+      color: $light-cyan;
+      font-size: 1rem;
+    }
+  }
+
+  &__password-container {
+    width: 100%;
+    height: fit-content;
+    position: relative;
+  }
+
+  &__eye-icon {
+    position: absolute;
+    right: 10px;
+    top: 13px;
+    color: $neon-green;
+    cursor: pointer;
+  }
+
+  &__submit-btn {
+    padding: 10px;
+    border: none;
+    background-color: $neon-green;
+    cursor: pointer;
+    text-transform: uppercase;
+    border-radius: 50%;
+    position: absolute;
+    bottom: -20px;
+
+    &:hover,
+    &:focus {
+      background-color: lighten($neon-green, 10%);
+      box-shadow: 0 0 15px lighten($neon-green, 10%);
+    }
+  }
+
+  &__btn-icon {
+    font-size: 1.5rem;
+  }
+
+  .form-links {
+    padding: 10px;
+    margin-bottom: 10px;
+    &__link-item {
+      padding: 10px;
+      font-size: 0.7rem;
+      color: #fff;
+
+      &:active,
+      &:visited {
+        color: #fff;
+      }
+    }
+  }
+}
