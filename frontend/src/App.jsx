@@ -25,7 +25,13 @@ function App() {
           />
           <Route
             path="/login"
-            element={<FormContainer userId={userId} setUserId={setUserId} />}
+            element={
+              <FormContainer
+                userId={userId}
+                setUserId={setUserId}
+                setCurrentAdvice={setCurrentAdvice}
+              />
+            }
           />
         </Routes>
       </Router>
