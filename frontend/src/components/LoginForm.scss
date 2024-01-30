@@ -71,6 +71,11 @@
       background-color: lighten($neon-green, 10%);
       box-shadow: 0 0 15px lighten($neon-green, 10%);
     }
+
+    &:disabled {
+      cursor: not-allowed;
+      pointer-events: all !important;
+    }
   }
 
   &__btn-icon {
