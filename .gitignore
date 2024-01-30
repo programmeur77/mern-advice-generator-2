@@ -5,7 +5,7 @@
 frontend/package-lock.json
 
 # Backend files and folders
-backend/package-lock.json
 backend/node_modules
+backend/package-lock.json
 
 .DS_Store

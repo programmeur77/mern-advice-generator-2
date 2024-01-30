@@ -1,0 +1,28 @@
+{
+  "name": "mern-advice-generator-backend",
+  "version": "1.0.0",
+  "description": "Backend part of advice generator app. This challenge was basically only in HTML/CSS/JS but I added backend part",
+  "main": "server.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "devStart": "node --watch server.js"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/programmeur77/mern-advice-generator.git"
+  },
+  "author": "Benoît PUECH/Frontendmentor for frontend",
+  "license": "ISC",
+  "type": "module",
+  "bugs": {
+    "url": "https://github.com/programmeur77/mern-advice-generator/issues"
+  },
+  "homepage": "https://github.com/programmeur77/mern-advice-generator#readme",
+  "dependencies": {
+    "bcrypt": "^5.1.1",
+    "cors": "^2.8.5",
+    "dotenv": "^16.4.1",
+    "express": "^4.18.2",
+    "mongoose": "^8.1.1"
+  }
+}
