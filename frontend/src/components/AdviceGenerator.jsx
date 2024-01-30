@@ -10,13 +10,14 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
 
   const navigate = useNavigate();
 
+  const DATE_OF_TODAY = new Date().toLocaleString();
+
   useEffect(() => {
     userId === null ? navigate('/login') : null;
-    // currentAdvice === null && userId !== null ? generateAdvice() : null;
     if (currentAdvice === null && userId !== null) {
       generateAdvice();
     } else if (currentAdvice !== null && userId !== null) {
-      console.log('NOK');
+      compareDates(currentAdvice);
     }
   }, []);
 
@@ -38,7 +39,7 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
   const saveAdviceFetch = async (advice) => {
     try {
       const saveAdviceResponse = await fetch(
-        `http://localhost:3000/api/advice/${userId}/adviceUpdate`,
+        `http://localhost:3000/api/advice/${userId}/updateAdvice`,
         {
           method: 'POST',
           headers: {
@@ -93,6 +94,15 @@ const AdviceGenerator = ({ currentAdvice, userId, setCurrentAdvice }) => {
       console.error(error);
       setIsLoading(false);
     }
+  };
+
+  const compareDates = (advice) => {
+    advice.map((adviceItem) => {
+      if (adviceItem.generatedAt !== DATE_OF_TODAY) {
+        console.log('Dates are different');
+        generateAdvice();
+      }
+    });
   };
 
   return (
