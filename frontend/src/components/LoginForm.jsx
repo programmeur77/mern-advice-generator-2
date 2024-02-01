@@ -37,14 +37,14 @@ const LoginForm = ({
         }
       );
 
-      if (!userResponse.ok) {
-        throw new Error('Impossible to login');
+      if (userResponse.status === 403) {
+        setErrorMessage('Invalid email or password');
       }
 
       const userData = await userResponse.json();
       return userData;
     } catch (error) {
-      setError(true);
+      return;
     }
   };
 
@@ -57,7 +57,7 @@ const LoginForm = ({
     try {
       const userResponse = await loginFetch(NewUser);
       if (!userResponse) {
-        throw new Error('Error in login');
+        throw new Error(userResponse.error);
       }
       if (userResponse.user.advice) {
         setCurrentAdvice([userResponse.user.advice]);
@@ -97,9 +97,11 @@ const LoginForm = ({
     switch (e.target.name) {
       case 'email':
         setEmailValue(e.target.value);
+        setInputIsEmpty(false);
         break;
       case 'password':
         setPasswordValue(e.target.value);
+        setInputIsEmpty(false);
         break;
       default:
         break;
