@@ -18,8 +18,11 @@ const LoginForm = ({
   const [passwordValue, setPasswordValue] = useState('');
   const [error, setError] = useState([]);
   const [passwordIsVisible, setPasswordIsVisible] = useState(false);
+  const [inputIsEmpty, setInputIsEmpty] = useState(true);
 
   const navigate = useNavigate();
+
+  const EMAIL_VALIDATION_PATTERN = /^[\w-\.]+@([\w-]+\.)+[\w-]{2,4}$/;
 
   const loginFetch = async (user) => {
     try {
@@ -106,13 +109,21 @@ const LoginForm = ({
   const handleOnBlur = (e) => {
     switch (e.target.name) {
       case 'email':
-        if (emailValue === '') {
+        if (emailValue !== '') {
+          if (!EMAIL_VALIDATION_PATTERN.test(emailValue)) {
+            setErrorMessage('Invalid email');
+            e.target.style.borderBottom = '2px solid red';
+          } else {
+            deleteErrorMessage('Invalid email');
+            e.target.style.borderBottom = '2px solid hsl(150, 100%, 66%)';
+          }
+        } else if (emailValue === '') {
           setErrorMessage('Email cannot be empty');
           e.target.style.borderBottom = '2px solid red';
-          console.log(error);
         } else {
-          deleteErrorMessage('Email cannot be empty');
+          deleteErrorMessage('Invalid email');
           e.target.style.borderBottom = '2px solid hsl(150, 100%, 66%)';
+          setInputIsEmpty(false);
         }
         break;
       case 'password':
@@ -123,6 +134,7 @@ const LoginForm = ({
         } else {
           deleteErrorMessage('Password cannot be empty');
           e.target.style.borderBottom = '2px solid hsl(150, 100%, 66%)';
+          setInputIsEmpty(false);
         }
         break;
       default:
@@ -192,7 +204,9 @@ const LoginForm = ({
 
         <button
           className="login-form__submit-btn"
-          disabled={isLoading === true || error.length > 0}
+          disabled={
+            isLoading === true || error.length > 0 || inputIsEmpty === true
+          }
         >
           {isLoading ? (
             <img src={loader} alt="loader" />
@@ -201,7 +215,7 @@ const LoginForm = ({
           )}
         </button>
 
-        {error ?? <p>{error}</p>}
+        {error ?? <p className="login-form__error-content">{error}</p>}
 
         <div className="form-links">
           <Link to="forgotten-password" className="form-links__link-item">
