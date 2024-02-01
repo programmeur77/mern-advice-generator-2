@@ -28,17 +28,19 @@ export const createUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   const { email, password } = req.body;
 
-  const user = await User.findOne({ email });
+  const user = await User.findOne({ email: email });
+  if (user) {
+    const validatePassword = await bcrypt.compare(password, user.password);
+    if (!validatePassword) {
+      res.sendStatus(403);
+    }
 
-  if (!user) {
-    res.status(404).json({ error: 'Invalid email or password', status: 404 });
+    res.status(200).json({
+      user: { _id: user._id, email: user.email },
+      token: 'TOKEN',
+      status: 200,
+    });
+  } else {
+    res.sendStatus(403);
   }
-
-  const validPassword = await bcrypt.compare(password, user.password);
-
-  if (!validPassword) {
-    res.status(404).json({ error: 'Invalid email or password', status: 404 });
-  }
-
-  res.status(200).json({ user: user, token: 'TOKEN', status: 200 });
 };
