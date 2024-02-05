@@ -59,8 +59,8 @@ const LoginForm = ({
       if (!userResponse) {
         throw new Error(userResponse.error);
       }
-      if (userResponse.user.advice) {
-        setCurrentAdvice([userResponse.user.advice]);
+      if (userResponse.advice) {
+        setCurrentAdvice([userResponse.advice]);
       }
       setIsLoading(false);
       setUserId(userResponse.user._id);
@@ -90,7 +90,6 @@ const LoginForm = ({
     if (updatedErrorMessageArray.length === 0) {
       setError([]);
     }
-    console.log(updatedErrorMessageArray);
   };
 
   const handleOnChange = (e) => {
@@ -112,6 +111,8 @@ const LoginForm = ({
     switch (e.target.name) {
       case 'email':
         if (emailValue !== '') {
+          deleteErrorMessage('Email cannot be empty');
+          e.target.style.borderBottom = '2px solid hsl(150, 100%, 66%)';
           if (!EMAIL_VALIDATION_PATTERN.test(emailValue)) {
             setErrorMessage('Invalid email');
             e.target.style.borderBottom = '2px solid red';
