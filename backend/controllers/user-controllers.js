@@ -33,14 +33,21 @@ export const loginUser = async (req, res) => {
     const validatePassword = await bcrypt.compare(password, user.password);
     if (!validatePassword) {
       res.sendStatus(403);
+      return;
     }
 
     res.status(200).json({
       user: { _id: user._id, email: user.email },
+      advice: {
+        id: user.advice.id,
+        advice: user.advice.advice,
+        generatedAt: user.advice.generatedAt,
+      },
       token: 'TOKEN',
       status: 200,
     });
   } else {
     res.sendStatus(403);
+    return;
   }
 };
